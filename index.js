@@ -34,9 +34,12 @@ function convertSnippet(snippet, context) {
   let body = snippet.body.join("\n");
   body = body.replace(/\\t/, '');
   let replacement = (str, name, value) => {
+    const shortMatch = typeof value === "number";
+    value = shortMatch ? undefined : value;
+    const original = name;
     name = name === "0" ? "END" : name;
     name = name.replace("-", "_");
-    vars[name] = value;
+    vars[name] = value || (!shortMatch ? original : "");
     return "$" + name + "$";
   };
   body = body.replace(/\$([_a-zA-Z0-9\-]+)/g, replacement);
@@ -48,7 +51,7 @@ function convertSnippet(snippet, context) {
     if (variable === "END") continue;
 
     templateText += `
-    <variable name="${variable}" expression="" defaultValue="&quot;${vars[variable] || variable}&quot;" alwaysStopAt="true" />`;
+    <variable name="${variable}" expression="" defaultValue="&quot;${vars[variable]}&quot;" alwaysStopAt="true" />`;
   }
   templateText += `
     <context>

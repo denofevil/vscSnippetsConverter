@@ -1,8 +1,8 @@
 const fs = require('fs');
 
 function printUsageAndExit() {
-  console.error("Usage: <input_snippet> <output_directory>");
-  console.error("input_snippet can be either a file or a directory");
+  console.error("Usage: <input_dir>");
+  console.error("input_dir should be a directory with snippets json files");
   process.exit(1)
 }
 
@@ -59,7 +59,7 @@ function convertSnippet(snippet, context) {
   templateText += "";
   return templateText;
 }
-function convertFile(input, file, output) {
+function convertFile(input, file) {
   console.log(`converting ${file}`);
   const snippets = JSON.parse(fs.readFileSync(`${input}/${file}`));
   let templateSetText = `<templateSet group="${input}">`;
@@ -73,14 +73,13 @@ function convertFile(input, file, output) {
 }
 
 const input = process.argv[2];
-const output = process.argv[3];
 
-if (!input || !output) {
+if (!input) {
   printUsageAndExit()
 }
 
 fs.readdir(input, (err, files) => {
   files.forEach(file => {
-    convertFile(input, file, output)
+    convertFile(input, file)
   });
 });

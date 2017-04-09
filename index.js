@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 
 function printUsageAndExit() {
   console.error("Usage: <input_dir>");
@@ -63,16 +64,14 @@ function convertSnippet(snippet, context) {
   return templateText;
 }
 function convertFile(input, file) {
-  console.log(`converting ${file}`);
+  console.error(`converting ${file}`);
   const snippets = JSON.parse(fs.readFileSync(`${input}/${file}`));
-  let templateSetText = `<templateSet group="${input}">`;
+  let templates = "";
   for (const name of Object.keys(snippets).sort()) {
     const snippet = snippets[name];
-    templateSetText += convertSnippet(snippet, file.substr(0, file.indexOf('.')));
+    templates += convertSnippet(snippet, file.substr(0, file.indexOf('.')));
   }
-
-  templateSetText += "\n</templateSet>";
-  console.log(templateSetText);
+  return templates;
 }
 
 const input = process.argv[2];
@@ -82,7 +81,11 @@ if (!input) {
 }
 
 fs.readdir(input, (err, files) => {
+  let templateSetText = `<templateSet group="${path.basename(path.dirname(input))}">`;
   files.forEach(file => {
-    convertFile(input, file)
+    templateSetText += convertFile(input, file)
   });
+  templateSetText += "\n</templateSet>";
+
+  console.log(templateSetText);
 });

@@ -39,12 +39,8 @@ function convertSnippet(snippet, context) {
     vars[name] = value;
     return "$" + name + "$";
   };
-  body = body.replace(/\$([_a-zA-Z0-9\-]+)/, replacement);
-  let unprocessedBody;
-  do {
-    unprocessedBody = body;
-    body = body.replace(/\${([_a-zA-Z0-9\-]+(?:\s*:\s*([_a-zA-Z][_a-zA-Z0-9]*))?)}/, replacement);
-  } while (unprocessedBody !== body);
+  body = body.replace(/\$([_a-zA-Z0-9\-]+)/g, replacement);
+  body = body.replace(/\${([_a-zA-Z0-9\-]+(?:\s*:\s*([_a-zA-Z][_a-zA-Z0-9]*))?)}/g, replacement);
 
   let templateText = `
   <template name="${xmlEscape(snippet.prefix)}" value="${xmlEscape(body)}" description="${xmlEscape(snippet.description)}" toReformat="true" toShortenFQNames="true">`;

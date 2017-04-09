@@ -1,0 +1,19 @@
+{
+  "name": "vsc-snippets-converter",
+  "version": "0.0.1",
+  "description": "Convert VS Code snippets to IJ ones (IntelliJ IDEA, WebStorm, etc)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/denofevil/vscSnippetsConverter.git"
+  },
+  "author": "Dennis Ushakov",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/denofevil/vscSnippetsConverter/issues"
+  },
+  "homepage": "https://github.com/denofevil/vscSnippetsConverter#readme"
+}

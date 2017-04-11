@@ -48,7 +48,7 @@ function convertSnippet(snippet, context) {
 
   let templateText = `
   <template name="${xmlEscape(snippet.prefix)}" value="${xmlEscape(body)}" description="${xmlEscape(snippet.description)}" toReformat="true" toShortenFQNames="true">`;
-  for (const variable of Object.keys(vars).sort()) {
+  for (const variable of Object.keys(vars)) {
     if (variable === "END") continue;
 
     templateText += `

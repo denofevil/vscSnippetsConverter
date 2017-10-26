@@ -35,7 +35,7 @@ function convertSnippet(snippet, context) {
   let body = snippet.body.join("\n");
   body = body.replace(/\\t/, '');
   let replacement = (str, match, name, value) => {
-    const shortMatch = typeof value === "number";
+    const shortMatch = typeof value === "number" || value === undefined;
     name = !name.match(/\d*/) || shortMatch ? name : value;
     value = shortMatch ? undefined : value;
     const original = name;

@@ -32,7 +32,7 @@ function mapContext(string) {
 function convertSnippet(snippet, context) {
   let vars = {};
 
-  let body = snippet.body.join("\n");
+  let body = typeof snippet.body === 'string' ? snippet.body : snippet.body.join("\n");
   body = body.replace(/\\t/, '');
   let replacement = (str, match, name, value) => {
     const shortMatch = typeof value === "number" || value === undefined;

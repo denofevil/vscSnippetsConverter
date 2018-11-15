@@ -36,7 +36,7 @@ function convertSnippet(snippet, context) {
   body = body.replace(/\\t/, '');
   let replacement = (str, match, name, value) => {
     const shortMatch = typeof value === "number" || value === undefined;
-    name = !name.match(/\d*/) || shortMatch ? name : value;
+    name = !name.match(/\d*/) || shortMatch || !value.match(/^[_a-zA-Z0-9\-]+$/g) ? name : value;
     value = shortMatch ? undefined : value;
     const original = name;
     name = name === "0" ? "END" : name;
@@ -45,7 +45,8 @@ function convertSnippet(snippet, context) {
     return "$" + name + "$";
   };
   body = body.replace(/\$(([_a-zA-Z0-9\-]+))/g, replacement);
-  body = body.replace(/\${(([_a-zA-Z0-9\-]+)(?:\s*:\s*([_a-zA-Z0-9\-]+))?)}/g, replacement);
+  body = body.replace(/\${(([_a-zA-Z0-9\-]+)(?:\s*:\s*\${([^}]+)})?)}/g, replacement);
+  body = body.replace(/\${(([_a-zA-Z0-9\-]+)(?:\s*:\s*([^}]+))?)}/g, replacement);
 
   let templateText = `
   <template name="${xmlEscape(snippet.prefix)}" value="${xmlEscape(body)}" description="${xmlEscape(snippet.description)}" toReformat="true" toShortenFQNames="true">`;
